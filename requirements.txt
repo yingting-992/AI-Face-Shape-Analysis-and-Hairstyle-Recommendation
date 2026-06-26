@@ -1,0 +1,9 @@
+gradio
+opencv-python
+torch
+torchvision
+pillow
+numpy
+python-dotenv
+scikit-learn
+mediapipe==0.10.14
