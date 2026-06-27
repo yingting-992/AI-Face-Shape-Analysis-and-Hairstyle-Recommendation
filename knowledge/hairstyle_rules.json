@@ -1,0 +1,257 @@
+{
+  "Oval": {
+    "label_zh": "鵝蛋臉",
+    "aliases": ["Oval Face", "鵝蛋臉", "橢圓臉"],
+    "features": [
+      "臉部比例較均衡",
+      "額頭、顴骨與下顎寬度差異較小",
+      "臉部線條較柔和"
+    ],
+    "design_principles": [
+      "維持臉部自然比例",
+      "增加髮型層次與立體感",
+      "避免過度遮擋臉部線條"
+    ],
+    "recommended": [
+      {
+        "name": "自然垂順髮",
+        "reason": "橢圓臉比例均衡，自然垂順髮能保留五官比例，不會過度修飾臉型。",
+        "tags": ["直髮", "自然", "日常"],
+        "basis": ["維持臉部自然比例", "避免過度遮擋臉部線條"],
+        "sources": ["Best Salon Report", "KHTrain"]
+      },
+      {
+        "name": "層次剪",
+        "reason": "增加頭髮層次與立體感，同時維持臉部比例平衡。",
+        "tags": ["層次", "中長髮", "百搭"],
+        "basis": ["增加髮型層次與立體感", "維持臉部自然比例"],
+        "sources": ["Best Salon Report", "KHTrain"]
+      },
+      {
+        "name": "水波燙",
+        "reason": "增加柔和感與造型變化，適合比例均衡的橢圓臉。",
+        "tags": ["韓系", "捲髮", "柔和"],
+        "basis": ["增加髮型層次與立體感", "維持臉部自然比例"],
+        "sources": ["Best Salon Report", "KHTrain", "U Beauty"]
+      }
+    ],
+    "avoid": [
+      {
+        "name": "過度覆蓋臉部線條的厚重造型",
+        "reason": "容易遮住原本均衡的臉部比例。",
+        "basis": ["避免過度遮擋臉部線條"],
+        "sources": ["Best Salon Report", "KHTrain"]
+      },
+      {
+        "name": "極端不對稱造型",
+        "reason": "可能破壞橢圓臉自然的平衡感。",
+        "basis": ["維持臉部自然比例"],
+        "sources": ["Best Salon Report"]
+      }
+    ]
+  },
+  "Round": {
+    "label_zh": "圓臉",
+    "aliases": ["Round Face", "圓臉"],
+    "features": [
+      "臉長與臉寬比例接近",
+      "臉頰較圓潤",
+      "臉部線條較柔和"
+    ],
+    "design_principles": [
+      "增加臉部縱向比例",
+      "修飾兩側臉頰",
+      "避免增加臉部橫向寬度"
+    ],
+    "recommended": [
+      {
+        "name": "八字瀏海",
+        "reason": "能修飾兩側臉頰，使臉型視覺上更修長。",
+        "tags": ["瀏海", "韓系", "修飾"],
+        "basis": ["修飾兩側臉頰", "增加臉部縱向比例"],
+        "sources": ["Bella", "Best Salon Report", "KHTrain", "U Beauty"]
+      },
+      {
+        "name": "C字燙",
+        "reason": "增加縱向線條，讓圓臉看起來更立體。",
+        "tags": ["燙髮", "中長髮", "修飾"],
+        "basis": ["增加臉部縱向比例", "修飾兩側臉頰"],
+        "sources": ["Bella", "Best Salon Report", "KHTrain"]
+      },
+      {
+        "name": "鎖骨層次髮",
+        "reason": "拉長臉部比例，同時避免臉部顯得過圓。",
+        "tags": ["鎖骨髮", "層次", "日常"],
+        "basis": ["增加臉部縱向比例", "修飾兩側臉頰"],
+        "sources": ["Bella", "Best Salon Report"]
+      }
+    ],
+    "avoid": [
+      {
+        "name": "厚重齊瀏海",
+        "reason": "容易縮短臉部比例，使臉看起來更圓。",
+        "basis": ["避免增加臉部橫向寬度"],
+        "sources": ["Bella", "Best Salon Report", "KHTrain"]
+      },
+      {
+        "name": "兩側過度蓬鬆短髮",
+        "reason": "增加臉部橫向寬度，使圓臉更加明顯。",
+        "basis": ["避免增加臉部橫向寬度"],
+        "sources": ["Bella", "Best Salon Report", "KHTrain"]
+      }
+    ]
+  },
+  "Square": {
+    "label_zh": "方臉",
+    "aliases": ["Square Face", "方臉"],
+    "features": [
+      "下顎角較明顯",
+      "額頭與下顎寬度較接近",
+      "臉部輪廓較有稜角"
+    ],
+    "design_principles": [
+      "柔化下顎線條",
+      "增加臉部周圍的曲線感",
+      "避免強調方形輪廓"
+    ],
+    "recommended": [
+      {
+        "name": "側分瀏海",
+        "reason": "柔化方形下顎線條，使輪廓看起來更自然。",
+        "tags": ["瀏海", "側分", "修飾"],
+        "basis": ["柔化下顎線條", "避免強調方形輪廓"],
+        "sources": ["Best Salon Report", "KHTrain", "U Beauty"]
+      },
+      {
+        "name": "大波浪捲",
+        "reason": "利用曲線降低方形輪廓的銳利感。",
+        "tags": ["捲髮", "韓系", "柔和"],
+        "basis": ["增加臉部周圍的曲線感", "柔化下顎線條"],
+        "sources": ["Best Salon Report", "KHTrain"]
+      },
+      {
+        "name": "層次中長髮",
+        "reason": "增加臉部周圍流線感，修飾下顎角。",
+        "tags": ["層次", "中長髮", "自然"],
+        "basis": ["增加臉部周圍的曲線感", "柔化下顎線條"],
+        "sources": ["Best Salon Report", "KHTrain"]
+      }
+    ],
+    "avoid": [
+      {
+        "name": "貼臉短直髮",
+        "reason": "容易強調方形下顎輪廓。",
+        "basis": ["避免強調方形輪廓"],
+        "sources": ["Best Salon Report", "KHTrain"]
+      },
+      {
+        "name": "厚重平瀏海",
+        "reason": "增加臉部厚重感，使輪廓更方。",
+        "basis": ["避免強調方形輪廓"],
+        "sources": ["Best Salon Report", "KHTrain", "U Beauty"]
+      }
+    ]
+  },
+  "Heart": {
+    "label_zh": "心形臉／倒三角臉",
+    "aliases": ["Heart Face", "Inverted Triangle Face", "心形臉", "倒三角臉"],
+    "features": [
+      "額頭或上半臉比例較寬",
+      "下巴較尖",
+      "上下臉寬度差異較明顯"
+    ],
+    "design_principles": [
+      "修飾額頭寬度",
+      "增加下半部份量",
+      "平衡上下臉比例"
+    ],
+    "recommended": [
+      {
+        "name": "八字瀏海",
+        "reason": "修飾較寬的額頭，使臉部比例更平衡。",
+        "tags": ["瀏海", "韓系", "修飾"],
+        "basis": ["修飾額頭寬度", "平衡上下臉比例"],
+        "sources": ["Best Salon Report", "KHTrain", "U Beauty"]
+      },
+      {
+        "name": "公主切",
+        "reason": "修飾額頭與臉頰比例，降低上半部寬度。",
+        "tags": ["日系", "修飾", "造型"],
+        "basis": ["修飾額頭寬度", "平衡上下臉比例"],
+        "sources": ["Best Salon Report", "KHTrain"]
+      },
+      {
+        "name": "下段C字燙",
+        "reason": "增加下巴附近髮量，平衡尖下巴。",
+        "tags": ["燙髮", "中長髮", "柔和"],
+        "basis": ["增加下半部份量", "平衡上下臉比例"],
+        "sources": ["Best Salon Report", "KHTrain", "U Beauty"]
+      }
+    ],
+    "avoid": [
+      {
+        "name": "完全後梳造型",
+        "reason": "容易凸顯額頭較寬的特徵。",
+        "basis": ["修飾額頭寬度"],
+        "sources": ["Best Salon Report", "KHTrain"]
+      },
+      {
+        "name": "超短瀏海",
+        "reason": "會讓額頭比例更加明顯。",
+        "basis": ["修飾額頭寬度", "平衡上下臉比例"],
+        "sources": ["Best Salon Report", "U Beauty"]
+      }
+    ]
+  },
+  "Oblong": {
+    "label_zh": "長臉",
+    "aliases": ["Oblong Face", "Long Face", "長臉", "面長臉"],
+    "features": [
+      "臉長明顯大於臉寬",
+      "縱向比例較高",
+      "臉部視覺重心容易被拉長"
+    ],
+    "design_principles": [
+      "降低臉部過長的視覺感",
+      "增加臉部橫向份量",
+      "避免進一步拉長臉部比例"
+    ],
+    "recommended": [
+      {
+        "name": "空氣瀏海",
+        "reason": "縮短臉部縱向比例，使臉型更均衡。",
+        "tags": ["瀏海", "韓系", "修飾"],
+        "basis": ["降低臉部過長的視覺感", "避免進一步拉長臉部比例"],
+        "sources": ["Best Salon Report", "KHTrain", "U Beauty"]
+      },
+      {
+        "name": "水波燙",
+        "reason": "增加兩側蓬鬆感，降低臉部過長的視覺效果。",
+        "tags": ["捲髮", "韓系", "柔和"],
+        "basis": ["增加臉部橫向份量", "降低臉部過長的視覺感"],
+        "sources": ["Best Salon Report", "KHTrain"]
+      },
+      {
+        "name": "中長層次髮",
+        "reason": "增加橫向層次，使臉型看起來更協調。",
+        "tags": ["中長髮", "層次", "自然"],
+        "basis": ["增加臉部橫向份量", "降低臉部過長的視覺感"],
+        "sources": ["Best Salon Report", "KHTrain"]
+      }
+    ],
+    "avoid": [
+      {
+        "name": "超長直髮",
+        "reason": "容易進一步拉長臉部比例。",
+        "basis": ["避免進一步拉長臉部比例"],
+        "sources": ["Best Salon Report", "KHTrain"]
+      },
+      {
+        "name": "中分且無瀏海",
+        "reason": "會強調臉部縱向線條，使臉更顯長。",
+        "basis": ["避免進一步拉長臉部比例"],
+        "sources": ["Best Salon Report", "U Beauty"]
+      }
+    ]
+  }
+}

@@ -17,69 +17,7 @@ import torch.nn as nn
 from PIL import Image
 from torchvision import models, transforms
 from core import thresholds as T
-
-# ===================== 髮型建議規則（沿用/可自行調整） =====================
-HAIR_RULES = {
-    "Oval": {
-        "do": [
-            "自然垂順或層次剪皆能突顯臉部平衡",
-            "可嘗試各類髮型，如水波燙、外翹、空氣瀏海",
-            "搭配輕盈瀏海或中分造型展現個人風格"
-        ],
-        "avoid": [
-            "過度覆蓋臉部線條或極端造型"
-        ],
-        "notes": "橢圓臉是最理想比例，五官平衡。可自由變化韓日台各系風格，從自然直髮到層次波浪皆適合。"
-    },
-    "Round": {
-        "do": [
-            "頭頂增加高度或層次以拉長臉型",
-            "使用八字瀏海、C字燙修飾兩側比例",
-            "顎下長度的內彎或鎖骨髮效果最佳"
-        ],
-        "avoid": [
-            "厚重平瀏海或過短髮型",
-            "兩側蓬鬆的圓弧造型"
-        ],
-        "notes": "圓臉給人可愛印象但易顯寬。應以縱向比例與柔順線條修飾，可參考韓系C字燙或日本長層次造型。"
-    },
-    "Square": {
-        "do": [
-            "側分或逗號瀏海柔化下顎線",
-            "層次剪搭配大波浪或水波燙",
-            "建議在顎上或顎下創造弧度與動感"
-        ],
-        "avoid": [
-            "緊貼臉部的短直髮",
-            "厚重瀏海或兩側過短設計"
-        ],
-        "notes": "方形臉下顎明顯，宜利用曲線層次修飾。韓系波浪與日式側分髮最能展現柔和與知性氣質。"
-    },
-    "Heart": {
-        "do": [
-            "下巴附近增加髮量或曲線，平衡額寬",
-            "八字瀏海、公主切或C字燙都能修飾比例",
-            "下段髮型以柔順捲度增加重心"
-        ],
-        "avoid": [
-            "頂部過高或完全後梳造型",
-            "短瀏海或削弱下半段厚度的設計"
-        ],
-        "notes": "心形臉（逆三角）額頭寬、下巴尖。建議上服貼、下豐滿，以C字燙或水波紋營造平衡。"
-    },
-    "Oblong": {
-        "do": [
-            "空氣瀏海縮短臉長，搭配橫向層次或水波燙",
-            "側邊增加蓬鬆感與捲度",
-            "使用中長波浪或厚瀏海平衡比例"
-        ],
-        "avoid": [
-            "過長無層次直髮",
-            "頭頂過高或中分無瀏海"
-        ],
-        "notes": "面長臉應避免強調縱向線條。建議橫向層次或水波燙創造寬感，韓系空氣瀏海最能修飾比例。"
-    }
-}
+from utils.recommendation_engine import recommend_hairstyles, format_recommendation_text
 
 
 def _build_inference_transform(img_size: int):
@@ -372,11 +310,18 @@ def infer_once(image_pil: Image.Image,
 
     crop, img_rot, pts_rot = align_face(img_bgr, pts, rect=rect, margin=0.25)
     face_top_y = max(0, int(pts_rot[:, 1].min())) if pts_rot is not None else None
+    
+    geometry_info = None # 初始化 geometry_info 為 None
 
     if pts_rot is not None:
         L_len, L_cheek, L_jaw, L_fore, jaw_angle = geometry_measures(pts_rot, face_top_y)
-        dbg = f"[GEOM] len/cheek={L_len/(L_cheek+1e-6):.2f}  jaw/cheek={L_jaw/(L_cheek+1e-6):.2f}  jaw_angle={jaw_angle:.1f}"
-        print(dbg)
+
+        geometry_info = {
+            "face_length_ratio": float(L_len / (L_cheek + 1e-6)),
+            "jaw_width_ratio": float(L_jaw / (L_cheek + 1e-6)),
+            "forehead_width_ratio": float(L_fore / (L_cheek + 1e-6)),
+            "jaw_angle": float(jaw_angle),
+        }
 
     pil_face = Image.fromarray(cv2.cvtColor(crop, cv2.COLOR_BGR2RGB))
     x = tf(pil_face).unsqueeze(0)
@@ -387,6 +332,11 @@ def infer_once(image_pil: Image.Image,
     top1_idx, top2_idx = order[0], order[1]
     top1, p1 = class_names[top1_idx], float(prob[top1_idx])
     top2, p2 = class_names[top2_idx], float(prob[top2_idx])
+
+    prob_dict = {
+        class_names[i]: float(prob[i])
+        for i in range(len(class_names))
+    }
 
     # # === 強覆蓋 Square（直接下判斷）===
     # L_len, L_cheek, L_jaw, L_fore, jaw_angle = geometry_measures(pts_rot, face_top_y)
@@ -409,6 +359,11 @@ def infer_once(image_pil: Image.Image,
         top1, p1 = class_names[order[0]], float(fuse[order[0]])
         top2, p2 = class_names[order[1]], float(fuse[order[1]])
 
+        prob_dict = {
+            class_names[i]: float(fuse[i])
+            for i in range(len(class_names))
+        }
+
     vis = crop.copy()
 
     if pts_rot is not None:
@@ -428,11 +383,8 @@ def infer_once(image_pil: Image.Image,
 
     vis_pil = Image.fromarray(cv2.cvtColor(vis, cv2.COLOR_BGR2RGB))
 
-    rule = HAIR_RULES.get(top1)
-    if rule:
-        tips = f"推薦：{'、'.join(rule['do'])}\n不建議：{'、'.join(rule['avoid'])}\n備註：{rule['notes']}"
-    else:
-        tips = "暫無此類規則。"
+    rec_result = recommend_hairstyles(top1, top_k=6)
+    tips = format_recommendation_text(rec_result)
 
     return {
         "vis_pil": vis_pil,
@@ -442,5 +394,7 @@ def infer_once(image_pil: Image.Image,
         "gallery_cls": top1,
         "used_geo": used_geo,
         "geo_msg": geo_msg,
+        "prob_dict": prob_dict,
+        "geometry_info": geometry_info,
     }
 
