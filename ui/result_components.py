@@ -199,7 +199,7 @@ def geometry_reliability_bar(label, value, reliability, percent, desc):
 
 
 # 分析總覽整個 Tab
-def build_summary_tabs(tips, prob_bars_html, composition_text, feature_html):
+def build_summary_tabs(tips, prob_bars_html, composition_text, feature_html, confidence_html):
     """
     產生右下角「分析總覽」裡面的三個小分頁。
 
@@ -220,6 +220,9 @@ def build_summary_tabs(tips, prob_bars_html, composition_text, feature_html):
 
             <input type="radio" id="result-tab_feature" name="result_tabs">
             <label for="result-tab_feature">幾何輔助</label>
+
+            <input type="radio" id="result-tab_confidence" name="result_tabs">
+            <label for="result-tab_confidence">分析可信度</label>
 
             <div class="result-tab-content recommend-content">
                 <div class="summary-item">
@@ -246,6 +249,13 @@ def build_summary_tabs(tips, prob_bars_html, composition_text, feature_html):
                 <div class="summary-item">
                     <h4>幾何輔助分析</h4>
                     {feature_html}
+                </div>
+            </div>
+
+            <div class="result-tab-content confidence-content">
+                <div class="summary-item">
+                    <h4>分析可信度</h4>
+                    {confidence_html}
                 </div>
             </div>
         </div>

@@ -8,7 +8,8 @@ import gradio as gr
 from PIL import Image
 from core import thresholds as T
 from core.infer_core import load_model, infer_once
-
+from core.confidence import build_confidence_report
+from ui.confidence_components import build_confidence_html
 from ui.result_components import (
     build_result_title,
     build_probability_bars,
@@ -95,11 +96,21 @@ def ui_infer(image: Image.Image, use_haar: bool, low_conf: float, topk_gallery: 
     composition_text = build_composition_text(top1, p1, top2, p2)   # 臉型組成說明文字
     feature_html = build_feature_analysis_html(geometry_info)       # 臉部特徵分析 HTML
 
+    confidence_report = build_confidence_report(
+        p1=p1,
+        p2=p2,
+        used_geo=used_geo,
+        geometry_info=geometry_info,
+    )
+
+    confidence_html = build_confidence_html(confidence_report)
+
     summary_md = build_summary_tabs(        # 分析總覽三個分頁
         tips=tips,
         prob_bars_html=prob_bars_html,
         composition_text=composition_text,
         feature_html=feature_html,
+        confidence_html=confidence_html
     )
 
     return vis_pil, title, gallery, summary_md
