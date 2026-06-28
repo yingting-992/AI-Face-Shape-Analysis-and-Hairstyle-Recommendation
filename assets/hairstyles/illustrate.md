@@ -1,0 +1,1 @@
+Hairstyle reference images are not included in this repository due to copyright considerations.
