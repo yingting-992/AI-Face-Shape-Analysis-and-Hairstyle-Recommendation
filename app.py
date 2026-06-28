@@ -33,7 +33,7 @@ HAAR_PATH = Path(os.getenv("HAAR_PATH", "models/haarcascade_frontalface_default.
 ASSETS_DIR = Path(os.getenv("ASSETS_DIR", "assets/hairstyles"))
 
 LOW_CONF = float(os.getenv("LOW_CONF", 0.55))
-GALLERY_K = int(os.getenv("GALLERY_K", 6))
+GALLERY_K = int(os.getenv("GALLERY_K", 3))
 
 
 CSS_FILE = Path(__file__).with_name("style.css")
@@ -47,9 +47,9 @@ from utils.recommendation_engine import load_hairstyle_rules
 hairstyle_rules = load_hairstyle_rules()
 
 # ===================== 提供給 Gradio 的包裝函式 =====================
-def ui_infer(image: Image.Image, use_haar: bool, low_conf: float, topk_gallery: int):
+def ui_infer(image: Image.Image, use_haar: bool, low_conf: float): # , topk_gallery: int
     if image is None:
-        return None, "## 請先上傳照片", [], "請先上傳正臉照片再開始分析。"
+        return None, "## 請先上傳照片", "請先上傳正臉照片再開始分析。"
 
     out = infer_once(
         image_pil=image,
@@ -70,7 +70,7 @@ def ui_infer(image: Image.Image, use_haar: bool, low_conf: float, topk_gallery: 
             </div>
         </div>
         """
-        return None, f"## 無法完成分析\n\n{out['error']}", [], error_md
+        return None, f"## 無法完成分析\n\n{out['error']}", error_md
 
     vis_pil = out["vis_pil"]
     top1, p1, top2, p2 = out["top1"], out["p1"], out["top2"], out["p2"]
@@ -82,12 +82,12 @@ def ui_infer(image: Image.Image, use_haar: bool, low_conf: float, topk_gallery: 
 
     title = build_result_title(top1, p1, top2, p2, used_geo)
 
-    folder = ASSETS_DIR / top1
-    gallery = []
-    if folder.exists():
-        files = [p for p in folder.glob("*.*") if p.suffix.lower() in [".jpg", ".jpeg", ".png", ".webp"]]
-        random.shuffle(files)
-        gallery = [str(p) for p in files[: int(topk_gallery)]]
+    # folder = ASSETS_DIR / top1
+    # gallery = []
+    # if folder.exists():
+    #     files = [p for p in folder.glob("*.*") if p.suffix.lower() in [".jpg", ".jpeg", ".png", ".webp"]]
+    #     random.shuffle(files)
+    #     gallery = [str(p) for p in files[: int(topk_gallery)]]
 
     tips = out["tips"]
 
@@ -113,7 +113,7 @@ def ui_infer(image: Image.Image, use_haar: bool, low_conf: float, topk_gallery: 
         confidence_html=confidence_html
     )
 
-    return vis_pil, title, gallery, summary_md
+    return vis_pil, title, summary_md # gallery
 
 # ===================== Gradio 介面 =====================
 with gr.Blocks(
@@ -150,20 +150,10 @@ with gr.Blocks(
         print("hairstyle_rules keys:", hairstyle_rules.keys())
 
     with gr.Tab("臉型判斷"):
-        gr.HTML(
-            """
-            <div id="hero">
-            <p class="subtitle">
-                上傳正臉照片後，系統會進行人臉偵測、Landmark 分析、臉型辨識與髮型推薦。
-            </p>
-            </div>
-            """
-        )
-
         with gr.Row(equal_height=False, elem_id="main_row"):
             with gr.Column(scale=5, min_width=430, elem_id="upload_panel"):
                 gr.HTML('<div class="section-title">上傳照片</div>')
-                gr.HTML('<div class="section-desc">建議使用光線均勻、臉部完整、角度接近正面的照片。</div>')
+                gr.HTML('<div class="section-desc">請上傳光線均勻、臉部完整且接近正面的照片，系統將自動進行人臉偵測、Landmark 分析、臉型辨識與髮型推薦。</div>')
 
                 img_in = gr.Image(type="pil", label="照片上傳", elem_id="upload_box")
 
@@ -179,10 +169,7 @@ with gr.Blocks(
                         info="當模型信心值低於此門檻時，自動啟動幾何補判機制",
                     )
 
-                    topk_gallery = gr.Slider(
-                        3, 9, value=GALLERY_K, step=1,
-                        label="髮型參考圖片數量",
-                    )
+                    # topk_gallery = gr.State(6)
 
                 btn = gr.Button("開始分析", variant="primary", elem_id="analyze_btn")
 
@@ -200,20 +187,20 @@ with gr.Blocks(
                 with gr.Column(elem_id="recommend_panel"):
                     gr.HTML('<div class="section-title">分析總覽</div>')
                     summary = gr.HTML("等待分析結果...", elem_id="summary_box")
-                    gallery = gr.Gallery(
-                        label="適合髮型參考",
-                        columns=3,
-                        height=360,
-                        preview=True,
-                        elem_id="gallery_box",
-                    )
+                #     gallery = gr.Gallery(
+                #         label="適合髮型參考",
+                #         columns=3,
+                #         height=360,
+                #         preview=True,
+                #         elem_id="gallery_box",
+                #     )
 
         gr.HTML('<div id="footer">AI Face Shape Analysis & Intelligent Hairstyle Recommendation System</div>')
 
         btn.click(
             fn=ui_infer,
-            inputs=[img_in, use_haar, low_conf, topk_gallery],
-            outputs=[vis_out, title_out, gallery, summary],
+            inputs=[img_in, use_haar, low_conf], # topk_gallery
+            outputs=[vis_out, title_out, summary], # , gallery
         )
 
 
